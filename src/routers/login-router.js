@@ -4,6 +4,6 @@ const loginDataValidate = require('../middlewares/login-validate-data');
 
 const router = express.Router();
 
-router.post('/', loginDataValidate, loginControler.addUser);
+router.post('/', loginDataValidate, loginControler.login);
 
 module.exports = router;

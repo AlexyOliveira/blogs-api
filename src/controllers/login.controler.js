@@ -1,11 +1,11 @@
 const loginService = require('../services/login.services');
 
-const addUser = async (req, res) => {
+const login = async (req, res) => {
 const userData = req.body;
-const data = await loginService.addUser(userData);
+const data = await loginService.login(userData);
 res.status(data.status).json(data.message);
 };
 
 module.exports = {
-    addUser,
+    login,
 };
