@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const tokenGenerator = require('../utils/jwt/auth');
+const token = require('../utils/jwt/auth');
 
 const login = async ({ email, password }) => {
   const userEmail = await User.findOne({ where: { email } });
@@ -12,7 +12,7 @@ const login = async ({ email, password }) => {
     };
     return userData;
   }
-  const tokenGenerated = tokenGenerator({ email });
+  const tokenGenerated = token.tokenGenerator({ email });
   const userData = {
     status: 200,
     message: {

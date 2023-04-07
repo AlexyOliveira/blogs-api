@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const tokenGenerator = require('../utils/jwt/auth');
+const token = require('../utils/jwt/auth');
 
 const addUser = async ({ email, displayName, password, image }) => {
   const message = { message: 'User already registered' };
@@ -11,7 +11,7 @@ const addUser = async ({ email, displayName, password, image }) => {
       message,
     };
   }
-  const tokenGenerated = tokenGenerator({ email });
+  const tokenGenerated = token.tokenGenerator({ email });
   const userData = {
     status: 201,
     message: {
@@ -24,6 +24,12 @@ const addUser = async ({ email, displayName, password, image }) => {
   return userData;
 };
 
+const getAllUsers = async () => {
+    const allUsers = await User.findAll({ attributes: ['id', 'displayName', 'email', 'image'] });
+   return allUsers;
+  };
+
 module.exports = {
   addUser,
+  getAllUsers,
 };
