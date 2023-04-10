@@ -6,7 +6,9 @@ const nameValidate = require('../middlewares/add-category-validate');
 
 const router = express.Router();
 
+router.get('/', authToken, categoryControler.getAllCategories);
 router.post('/', authToken, nameValidate, categoryControler.addCategory);
+
 // router.get('/', authToken, userControler.getAllUsers);
 // router.get('/:id', authToken, userControler.getUserById);
 
