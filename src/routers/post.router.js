@@ -6,6 +6,7 @@ const postController = require('../controllers/post.controller');
 const router = express.Router();
 
 router.get('/', authToken, postController.getBlogPosts);
+router.get('/:id', authToken, postController.getPostById);
 router.post('/', authToken, newPostValidations, postController.addNewPost);
 
 module.exports = router;

@@ -12,7 +12,14 @@ const getBlogPosts = async (_req, res) => {
   res.status(200).json(result);
 };
 
+const getPostById = async (req, res) => {
+    const { id } = req.params;
+    const result = await postServices.getPostById(id);
+    res.status(result.status).json(result.message);
+  };
+
 module.exports = {
     addNewPost,
     getBlogPosts,
+    getPostById,
 };
