@@ -18,8 +18,17 @@ const getPostById = async (req, res) => {
     res.status(result.status).json(result.message);
   };
 
+  const putPostById = async (req, res) => {
+    const { id } = req.params;
+    const { authorization } = req.headers;
+    const userData = req.body;
+    const result = await postServices.putPostById(id, authorization, userData);
+    res.status(result.status).json(result.message);
+  };
+
 module.exports = {
     addNewPost,
     getBlogPosts,
     getPostById,
+    putPostById,
 };

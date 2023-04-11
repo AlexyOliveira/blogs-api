@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { BlogPost, User, Category } = require('../models');
+const { BlogPost, User, Category, PostCategory } = require('../models');
 
 const message = { message: 'one or more "categoryIds" not found' };
 
@@ -23,15 +23,8 @@ const addNewPost = async ({ title, content, categoryIds }, userToken) => {
     content,
     userId: user.dataValues.id,
   });
-  const formattedPost = {
-    id: post.id,
-    title: post.title,
-    content: post.content,
-    userId: post.userId,
-    updated: post.updated,
-    published: post.published,
-  };
-  return { status: 201, message: formattedPost };
+  categoryIds.map((cat) => PostCategory.create({ postId: post.id, categoryId: cat }));
+  return { status: 201, message: post };
 };
 
 const getBlogPosts = async () => {
@@ -69,8 +62,30 @@ const getPostById = async (id) => {
   return { status: 200, message: blogPostById };
 };
 
+const putPostById = async (postId, token, userData) => {
+  const { title, content } = userData;
+  const decode = jwt.decode(token);
+  const searchUserId = await User.findOne({ where: { email: decode.email } });
+  const userId = searchUserId.id;
+  const blogPostById = await BlogPost.findByPk(Number(postId));
+  if (blogPostById.userId !== userId) {
+    return { status: 401, message: { message: 'Unauthorized user' } };
+  }
+  await BlogPost.update({
+    title,
+    content,
+  }, {
+    where: {
+      id: +postId,
+    },
+  });
+  const userReturn = getPostById(postId); 
+   return userReturn;
+};
+
 module.exports = {
   addNewPost,
   getBlogPosts,
   getPostById,
+  putPostById,
 };
