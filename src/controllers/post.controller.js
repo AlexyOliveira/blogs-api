@@ -7,6 +7,12 @@ const addNewPost = async (req, res) => {
    res.status(serviceReturn.status).json(serviceReturn.message);
 };
 
+const getBlogPosts = async (_req, res) => {
+  const result = await postServices.getBlogPosts();
+  res.status(200).json(result);
+};
+
 module.exports = {
     addNewPost,
+    getBlogPosts,
 };
