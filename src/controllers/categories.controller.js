@@ -8,7 +8,7 @@ const addCategory = async (req, res) => {
 
   const getAllCategories = async (_req, res) => {
     const categories = await categoryService.getAllCategories();
-    res.status(200).json(categories);
+    res.status(200).send(categories);
   };
 
   module.exports = {

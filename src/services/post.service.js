@@ -100,10 +100,16 @@ const deletPostById = async (postId, userToken) => {
   return { status: 204, message: '' };
 };
 
+const searchPost = async () => {
+  const test = { status: 200, message: 'fungo' };
+  return test;
+};
+
 module.exports = {
   addNewPost,
   getBlogPosts,
   getPostById,
   putPostById,
   deletPostById,
+  searchPost,
 };

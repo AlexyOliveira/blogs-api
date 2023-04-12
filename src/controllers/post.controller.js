@@ -33,10 +33,16 @@ const getPostById = async (req, res) => {
     res.status(result.status).json(result.message);
   };
 
+  const searchPost = async (_req, res) => {
+    const { status, message } = await postServices.searchPost();
+   return res.status(status).json(message);
+  };
+
 module.exports = {
     addNewPost,
     getBlogPosts,
     getPostById,
     putPostById,
     deletPostById,
+    searchPost,
 };
