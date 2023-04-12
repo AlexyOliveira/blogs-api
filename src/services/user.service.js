@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const token = require('../utils/jwt/auth');
 
@@ -44,8 +45,18 @@ const getAllUsers = async () => {
   };
   };
 
+  const deleteMyUser = async (userToken) => {
+  const userTokenDecoded = jwt.decode(userToken);
+  const { email } = userTokenDecoded;
+  await User.destroy({
+    where: { email },
+  });
+   return { status: 204, message: 'deleted' };
+  };
+
 module.exports = {
   addUser,
   getAllUsers,
   getUserById,
+  deleteMyUser,
 };
