@@ -26,9 +26,17 @@ const getPostById = async (req, res) => {
     res.status(result.status).json(result.message);
   };
 
+  const deletPostById = async (req, res) => {
+    const { id } = req.params;
+    const { authorization } = req.headers;
+    const result = await postServices.deletPostById(+id, authorization);
+    res.status(result.status).json(result.message);
+  };
+
 module.exports = {
     addNewPost,
     getBlogPosts,
     getPostById,
     putPostById,
+    deletPostById,
 };

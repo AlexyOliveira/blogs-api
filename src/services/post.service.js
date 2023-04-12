@@ -83,9 +83,27 @@ const putPostById = async (postId, token, userData) => {
    return userReturn;
 };
 
+const deletPostById = async (postId, userToken) => {
+  const decode = jwt.decode(userToken);
+  const searchUserId = await User.findOne({ where: { email: decode.email } });
+  const userId = searchUserId.id;
+  const blogPostById = await BlogPost.findByPk(postId);
+  if (!blogPostById) {
+    return { status: 404, message: { message: 'Post does not exist' } };
+  }
+  if (blogPostById.userId !== userId) {
+    return { status: 401, message: { message: 'Unauthorized user' } };
+  }
+  await BlogPost.destroy({
+    where: { id: postId },
+  });
+  return { status: 204, message: '' };
+};
+
 module.exports = {
   addNewPost,
   getBlogPosts,
   getPostById,
   putPostById,
+  deletPostById,
 };
