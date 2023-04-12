@@ -1,5 +1,8 @@
+const Sequelize = require('sequelize');
 const jwt = require('jsonwebtoken');
 const { BlogPost, User, Category, PostCategory } = require('../models');
+
+const { Op } = Sequelize;
 
 const message = { message: 'one or more "categoryIds" not found' };
 
@@ -100,9 +103,22 @@ const deletPostById = async (postId, userToken) => {
   return { status: 204, message: '' };
 };
 
-const searchPost = async () => {
-  const test = { status: 200, message: 'fungo' };
-  return test;
+const searchPost = async (search) => {
+  const postsReturn = await BlogPost.findAll({
+    where: {
+      [Op.or]: {
+        title: { [Op.like]: `%${search}%` },
+        content: { [Op.like]: `%${search}%` },
+      },
+    },
+    include: [
+      { model: User,
+        as: 'user',
+        attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } }],
+  });
+
+  return { status: 200, message: postsReturn };
 };
 
 module.exports = {

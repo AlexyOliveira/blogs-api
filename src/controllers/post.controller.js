@@ -33,9 +33,10 @@ const getPostById = async (req, res) => {
     res.status(result.status).json(result.message);
   };
 
-  const searchPost = async (_req, res) => {
-    const { status, message } = await postServices.searchPost();
-   return res.status(status).json(message);
+  const searchPost = async (req, res) => {
+    const { q } = req.query;
+    const { status, message } = await postServices.searchPost(q);
+    return res.status(status).json(message);
   };
 
 module.exports = {
